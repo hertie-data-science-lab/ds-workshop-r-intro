@@ -385,7 +385,7 @@ pop1[asia == T & regime != "Autocracy"]
 
 # Working with data frames in `R`
 ## Importing data
-Most data formats we commonly use are not native to `R` and need to be imported. Luckily, there is a variety of packages available to import just about any non-native format. One of the essential libraries is called `foreign` and includes functions to import .csv, .dta (Stata), .dat, ,.sav (SPSS), etc. The `foreign` package is pre-installed. However, we need to tell `R` that we want to use functions from this package by calling it into the working environment using the `library()` command.
+Most data formats we commonly use are not native to `R` and need to be imported. Luckily, there is a variety  of packages available to import just about any non-native format. One of the essential libraries is called `foreign` and includes functions to import .csv, .dta (Stata), .dat, ,.sav (SPSS), etc. The `foreign` package is pre-installed. However, we need to tell `R` that we want to use functions from this package by calling it into the working environment using the `library()` command.
 ```{r,warning = F}
 library(foreign)
 ```
