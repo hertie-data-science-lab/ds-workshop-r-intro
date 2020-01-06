@@ -395,7 +395,7 @@ In this example, we will use data from the [Armed Conflict Location & Event Data
 When reading the data, remember that you need to either specify the complete file name or change your working directory using `setwd()` to the folder in which you saved the data.
 
 ```{r}
-mydata <- read.csv("ACLED-riots-protests.csv")
+mydata <- read.csv("ACLED_SEAsia.csv")
 class(mydata)
 ```
 
@@ -410,13 +410,13 @@ If we are only interested in what the variables are called, we can use the `name
 names(mydata)
 ```
 
-As we saw in the last session, we can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we want to make the variable `iso` (for standardized country codes) more intuitive.
+As we saw in the last session, we can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we want to change the name of the variable `event.type`.
 ```{r}
-names(mydata)[2] <- "country_iso"
+names(mydata)[3] <- "event_type"
 names(mydata)
 ```
 
-We can use the `summary()` function to get a first look at the data using measures of location.
+We can use the `summary()` function to get a first look at the data.
 ```{r}
 summary(mydata)
 ```
@@ -446,7 +446,7 @@ mydata[1:5,]
 
 If we try to access a data point that is out of bounds, `R` returns the value `NULL`. 
 ```{r}
-mydata[3,32]
+mydata[3,5]
 ```
 
 **Exercise 1** Access the element of the data frame `mydata` that is stored in row 1, column 1.
@@ -469,7 +469,7 @@ mydata$year
 
 **Exercise 3**: How would you access all elements of the variable `year` (first variable) using indexing rather than the `$` operator?
 ```{r, echo = F}
-mydata[,1]
+mydata[,2]
 mydata[,"year"]
 ```
 
@@ -544,6 +544,8 @@ save(mydata_new, file = "mydata_new.RData")
 Most of the time, however, we would want to save our data in formats that can be read by other programs as well. .csv is an obvious choice. After saving the new file, check the folder that is your working directory to see whether the newly saved file shows up there!
 ```{r}
 write.csv(mydata_new, file = "mydata_new.csv")
+
+mydata1 <- mydata[mydata$region]
 ```
 
 # (Very basic) data visualization
