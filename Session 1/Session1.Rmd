@@ -309,7 +309,7 @@ The myriad of functions that are either built-in to base `R` or parts of user-wr
 | `names()` | Returns the names (labels) of objects.|
 | `which()` | Returns the index of objects.|
 
-Le't's create a vector of indices for our top 5 population data.
+Let's create a vector of indices for our top 5 population data.
 ```{r}
 cindex <- seq(from = 1, to = length(pop1), by = 1)
 cindex
@@ -385,14 +385,17 @@ pop1[asia == T & regime != "Autocracy"]
 
 # Working with data frames in `R`
 ## Importing data
-Most data formats we commonly use are not native to `R` and need to be imported. Luckily, there is a variety of packages available to import just about any non-native format. One of the essential libraries is called `foreign` and includes functions to import .csv, .dta (Stata), .dat, ,.sav (SPSS), etc. The `foreign` package is pre-installed. However, we need to tell `R` that we want to use functions from this package by calling it into the working environment using the `library()` command.
+Most data formats we commonly use are not native to `R` and need to be imported. Luckily, there is a variety  of packages available to import just about any non-native format. One of the essential libraries is called `foreign` and includes functions to import .csv, .dta (Stata), .dat, ,.sav (SPSS), etc. The `foreign` package is pre-installed. However, we need to tell `R` that we want to use functions from this package by calling it into the working environment using the `library()` command.
 ```{r,warning = F}
 library(foreign)
 ```
 
-In this example, we will use the data from Imai (2017), that is saved in a .csv file and can be accessed online http://qss.princeton.press/student-files/INTRO/UNpop.csv. Download and save this file on your machine. When reading the data, remember that you need to either specify the complete file name or change your working directory using `setwd()` to the folder in which you saved the data.
+In this example, we will use data from the [Armed Conflict Location & Event Data Project (ACLED)](https://www.acleddata.com/), which offers real-time data and analysis on political violence and protests around the world. This dataset includes riots and protests from January 2010 to December 2019. 
+
+When reading the data, remember that you need to either specify the complete file name or change your working directory using `setwd()` to the folder in which you saved the data.
+
 ```{r}
-mydata <- read.csv("UNpop.csv")
+mydata <- read.csv("ACLED-riots-protests.csv")
 class(mydata)
 ```
 
@@ -402,15 +405,14 @@ Let's find out what this data looks like. First, use the `str()` function to exp
 str(mydata)
 ```
 
-
 If we are only interested in what the variables are called, we can use the `names()` function.
 ```{r}
 names(mydata)
 ```
 
-As we saw in the last session, we can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we didn't like the `.` in a variable name and wanted to change this to an underscore.
+As we saw in the last session, we can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we want to make the variable `iso` (for standardized country codes) more intuitive.
 ```{r}
-names(mydata)[2] <- "world_pop"
+names(mydata)[2] <- "country_iso"
 names(mydata)
 ```
 
@@ -432,16 +434,20 @@ As a rule, whenever we use two-dimensional indexing in `R`, the order is: `[row,
 mydata[1,]
 ```
 
-We can use the concatenate function `c()` to access multiple rows (or colums) at once. Below we print out the first and second row of the dataframe.
+We can use the concatenate function `c()` to access multiple rows (or columns) at once. Below we print out the first and second row of the dataframe.
 ```{r}
 mydata[c(1,2),]
 ```
 
-If we try to access a data point that is out of bounds, `R` returns the value `NULL`. Here, there is no third column!
+We can also access a range of rows by separating the minimum and maximum value with a `:`. Below we print out the first five rows of the dataframe. 
 ```{r}
-mydata[3,3]
+mydata[1:5,]
 ```
 
+If we try to access a data point that is out of bounds, `R` returns the value `NULL`. 
+```{r}
+mydata[3,32]
+```
 
 **Exercise 1** Access the element of the data frame `mydata` that is stored in row 1, column 1.
 ```{r, echo = F}
@@ -457,8 +463,8 @@ mydata[3,2]
 
 The `$` operator in `R` is used to specify a variable within a data frame. This is an alternative to indexing.
 ```{r}
+mydata$country
 mydata$year
-mydata$world_pop
 ```
 
 **Exercise 3**: How would you access all elements of the variable `year` (first variable) using indexing rather than the `$` operator?
