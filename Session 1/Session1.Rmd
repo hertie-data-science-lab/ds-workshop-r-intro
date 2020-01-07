@@ -395,7 +395,7 @@ In this example, we will use data from the [Armed Conflict Location & Event Data
 When reading the data, remember that you need to either specify the complete file name or change your working directory using `setwd()` to the folder in which you saved the data.
 
 ```{r}
-mydata <- read.csv("ACLED_SEAsia.csv")
+mydata <- read.csv("ACLED_countries.csv")
 class(mydata)
 ```
 
@@ -410,9 +410,9 @@ If we are only interested in what the variables are called, we can use the `name
 names(mydata)
 ```
 
-As we saw in the last session, we can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we want to change the name of the variable `event.type`.
+As we saw in the last session, we can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we want to change the variable `nconflicts`.
 ```{r}
-names(mydata)[3] <- "event_type"
+names(mydata)[2] <- "nconflict"
 names(mydata)
 ```
 
@@ -446,7 +446,7 @@ mydata[1:5,]
 
 If we try to access a data point that is out of bounds, `R` returns the value `NULL`. 
 ```{r}
-mydata[3,5]
+mydata[3,3]
 ```
 
 **Exercise 1** Access the element of the data frame `mydata` that is stored in row 1, column 1.
@@ -464,34 +464,34 @@ mydata[3,2]
 The `$` operator in `R` is used to specify a variable within a data frame. This is an alternative to indexing.
 ```{r}
 mydata$country
-mydata$year
+mydata$nconflict
 ```
 
-**Exercise 3**: How would you access all elements of the variable `year` (first variable) using indexing rather than the `$` operator?
+**Exercise 3**: How would you access all elements of the variable `country` using indexing rather than the `$` operator?
 ```{r, echo = F}
-mydata[,2]
-mydata[,"year"]
+mydata[,1]
+mydata[,"country"]
 ```
 
-**Exercise 4**: Print out every second element from the variable `world_pop` using indexing methods and the sequence function `seq()`.
+**Exercise 4**: Print out every second element from the variable `nconflict` using indexing methods and the sequence function `seq()`.
 ```{r, echo = F}
-mydata$world_pop[seq(1, length(mydata$world_pop), 2)]
+mydata$nconflict[seq(1, length(mydata$nconflict), 2)]
 ```
 
-**Exercise 5**: What are two ways to find the mean value of the variable `world_pop` using indexing (i.e. not using the `$` operator)?
+**Exercise 5**: What are two ways to find the mean value of the variable `nconflict` using indexing (i.e. not using the `$` operator)?
 ```{r, echo = F}
 mean(mydata[,2])
-mean(mydata[,"world_pop"])
+mean(mydata[,"nconflict"])
 ```
 
-**Exercise 6**: How would you find the maximum world population value using the `$` operator?
+**Exercise 6**: How would you find the maximum value for number of conflicts using the `$` operator?
 ```{r, echo = F}
-max(mydata$world_pop)
+max(mydata$nconflict)
 ```
 
-**Exercise 7**: Print the year that corresponds to the maximum world population value using the `$` operator and indexing!
+**Exercise 7**: Print the country that corresponds to the maximum world population value using the `$` operator and indexing!
 ```{r, echo = F}
-mydata$year[mydata$world_pop == max(mydata$world_pop)]
+mydata$country[mydata$nconflict == max(mydata$nconflict)]
 ```
 
 ## NAs in `R`
@@ -508,44 +508,32 @@ mean(vec, na.rm = T)
 sum(vec, na.rm = T)
 ```
 
-
 ## Adding observations
-First, lets add another observation to the data. Suppose we wanted to add an observation for the year 2020, that for right now will be a missing value. We can use the same operations we used for vectors to add data. Here, we will will use the `rbind()` function to do so. `rbind()` stands for "row bind." Save the output in a new data frame!
+First, lets add another observation to the data. Suppose we wanted to add an observation for the Germany, which will be a missing value. We can use the same operations we used for vectors to add data. Here, we will will use the `rbind()` function to do so. `rbind()` stands for "row bind." Save the output in a new data frame!
 ```{r}
-obs <- c(2020, NA)
-obs
+obs <- c("Germany", NA, NA)
 mydata_new <- rbind(mydata, obs)
 dim(mydata_new)
+
+mydata_new
 ```
 
-We can also create new variables that use information from the existing data. The population value is expressed in thousands. To express the world population in its original unit of measurement, we multiply each value by the scalar 1000 and store it in a new value called `world_pop_og`. By using the `$` operator, we can directly assign the new variable to the data frame `mydata_new`.
+We can also create new variables that use information from the existing data. The population value is expressed in thousands. To express the world population in its original unit of measurement, we multiply each value by the scalar 1000 and store it in a new value called `nconflict_og`. By using the `$` operator, we can directly assign the new variable to the data frame `mydata_new`.
 ```{r}
-mydata_new$world_pop_og <- mydata_new$world_pop * 1000
-head(mydata_new, 3) #prints out the first 3 rows of they data frame
-```
-
-We can use indexing and logical expressions to compute the population growth rate relative to the value in 1950. The general formula for computing a growth rate is
-
-$$growth = (new - old)/old * 100.$$ 
-
-To make the code more legible, I will first store the 1950 value in a separate object called `pop1950`.
-```{r}
-pop1950 <- mydata_new$world_pop[mydata_new$year == 1950]
-mydata_new$world_pop_growth1950 <- (mydata_new$world_pop - pop1950)/pop1950 * 100
+mydata$nconflict_fatalities <- mydata$nconflict - mydata$nconflict_no_fatalities
+head(mydata, 3) #prints out the first 3 rows of they data frame
 ```
 
 ## Saving data 
 Suppose we wanted to save this newly created data frame. We have multiple options to do so. If we wanted to save it as a native `.RData` format, we would run the following command. 
 ```{r}
 # Make sure you specified the right working directory!
-save(mydata_new, file = "mydata_new.RData")
+# save(mydata, file = "mydata_new.RData")
 ```
 
 Most of the time, however, we would want to save our data in formats that can be read by other programs as well. .csv is an obvious choice. After saving the new file, check the folder that is your working directory to see whether the newly saved file shows up there!
 ```{r}
-write.csv(mydata_new, file = "mydata_new.csv")
-
-mydata1 <- mydata[mydata$region]
+# write.csv(mydata_new, file = "mydata_new.csv")
 ```
 
 # (Very basic) data visualization
