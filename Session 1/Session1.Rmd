@@ -1,5 +1,5 @@
 ---
-title: "Data Science Workshop: Session 1"
+title: "Data Science Workshop Session 1"
 subtitle: "SCRIPTS Data and Methodology Center"
 author: 
 - Therese Anders 
@@ -619,8 +619,11 @@ A few additional notes on graphical options:
 * `R` colors in all their glory: http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf.
 
 # Sources {-}
+
 Economist Intelligence Unit (2017): *Democracy Index*. https://infographics.economist.com/2017/DemocracyIndex/.
 
 Imai, Kosuke (2017): *Quantitative Social Science. An Introduction*. Princeton and Oxford: Princeton University Press.
+
+Raleigh, Clionadh, Andrew Linke, Håvard Hegre and Joakim Karlsen. 2010. Introducing ACLED – Armed Conflict Location and Event Data. *Journal of Peace Research* 47(5), 651-660.
 
 World Bank (2017): *Population, total*. https://data.worldbank.org/indicator/sp.pop.totl?end=2016&start=2015.
