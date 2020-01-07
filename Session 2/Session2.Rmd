@@ -200,15 +200,6 @@ library(foreign)
 write.dta(carriers_new, "carriers_houston_la.dta")
 ```
 
----
-title: 'SPEC `R` Workshop Series: Session 4'
-author: "Therese Anders"
-output: 
-  pdf_document: 
-    number_sections: yes
----
-
-
 # Merging data
 ## The data
 In today's workshop we will be using data on military expenditures from two publicly available sources: The World Bank Development Indicators (WDI), and the Correlates of War Project's (COW) National Material Capabilities Data Version 4.0 starting in 1914. The data has been cleaned after downloading it from the original sources.
