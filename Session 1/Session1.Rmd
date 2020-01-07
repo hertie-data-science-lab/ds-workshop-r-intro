@@ -397,6 +397,7 @@ When reading the data, remember that you need to either specify the complete fil
 ```{r}
 mydata <- read.csv("ACLED_countries.csv")
 class(mydata)
+mydata
 ```
 
 ## Dimensions of a data frame
@@ -518,7 +519,7 @@ dim(mydata_new)
 mydata_new
 ```
 
-We can also create new variables that use information from the existing data. The population value is expressed in thousands. To express the world population in its original unit of measurement, we multiply each value by the scalar 1000 and store it in a new value called `nconflict_og`. By using the `$` operator, we can directly assign the new variable to the data frame `mydata_new`.
+We can also create new variables that use information from the existing data. The population value is expressed in thousands. To express the world population in its original unit of measurement, we multiply each value by the scalar 1000 and store it in a new value called `nconflict_fatalities`. By using the `$` operator, we can directly assign the new variable to the data frame `mydata_new`.
 ```{r}
 mydata$nconflict_fatalities <- mydata$nconflict - mydata$nconflict_no_fatalities
 head(mydata, 3) #prints out the first 3 rows of they data frame
@@ -539,13 +540,6 @@ Most of the time, however, we would want to save our data in formats that can be
 # (Very basic) data visualization
 Today, we will be covering some basics of data visualization in `R` using the native plotting functions. For more advanced data visualization functions, see the `ggplot2` package and the related material for a two-session introductory workshop on data visualization https://github.com/thereseanders/Workshop-Intro-to-ggplot2.
 
-We will work with data on US states' population, area, and population density values in 2015, derived from  https://en.wikipedia.org/wiki/List_of_states_and_territories_of_the_United_States_by_population_density. First, read in the data, and take a look at it using the `head()` function.
-
-```{r}
-dat <- read.csv("wiki_us_pop.csv")
-head(dat)
-```
-
 ## Basic graphical summaries of data
 
 | Type      |Operator | 
@@ -557,9 +551,9 @@ head(dat)
 |Basic scatterplot | `plot()`|
 
 ### Boxplot of population density
-First, we get a overview of the population density of US states by using the `boxplot()` function. It seems that there are quite a few outliers when it comes to population density!
+First, we get a overview of the number of conflicts using the `boxplot()` function. 
 ```{r, fig.width=3, fig.height = 3}
-boxplot(dat$pop_dens)
+boxplot(mydata$nconflict_no_fatalities)
 ```
 
 Suppose we wanted to know whether larger states on average are more or less densely populated than smaller states. Let's first look at the distribution of the land area (in square km).
