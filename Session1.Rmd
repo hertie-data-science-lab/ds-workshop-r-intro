@@ -1,10 +1,10 @@
 ---
-title: "Data Science Workshop Session 1"
-subtitle: "SCRIPTS Data and Methodology Center"
-author: 
-- Therese Anders 
-- Allison Koh
-date: "January 10, 2020"
+title: "Hertie School/SCRIPTS Data Science Workshop Series"
+subtitle: "Session 1: A gentle introduction to base R and RStudio"
+author:
+- Therese Anders^[Instructor, Hertie School/SCRIPTS, anders@hertie-school.org.]
+- Allison Koh^[Teaching assistant, Hertie School, kohallison3@gmail.com.]
+date: January 10, 2020
 output: pdf_document
 ---
 
@@ -13,8 +13,8 @@ This workshop series is geared toward learning basic data management in `R`. Thi
 
 Scheduled sessions:
 
-1. **Introduction to R** (working directories, arithmetic, logical operators, basic indexing, data types, basic functions such as sum, mean, names, seq, rep, installing packages, reading and writing data, dealing with missing data, data frames, indexing on data frames, getting an overview  of the data with multivariate numerical and graphical summaries).
-2. **Basic data management** (`dplyr`,`tidyr`,`stringr`)
+1. **Introduction to R** (working directories, arithmetic, logical operators, basic indexing, data types, basic functions such as sum, mean, names, seq, rep, installing packages, reading and writing data, dealing with missing data, data frames, indexing on data frames, getting an overview  of the data with numerical and graphical summaries).
+2. **Modern data management in R using the tidyverse** (`dplyr`, `tidyr`, `readr`, and `lubridate` packages)
 
 
 # Getting started in `R`
@@ -42,7 +42,7 @@ Think of your computer as a filing cabinet. During the course of this workshop, 
 
 ```{r}
 getwd() # Prints the current working directory
-setwd("/cloud/project")
+#setwd("/cloud/project")
 ```
 
 **Important for Windows users**: In `R`, the backslash is an escape character (we will be talking more about this in the session about `stringr`). Therefore, entering file paths is a little different in Windows than on a Mac. On a windows machine you would enter:
@@ -114,8 +114,7 @@ A few things to remember
 Below, `R` stores the result of the calculation in an object named `result`. We can access the value by referring to the object name.
 ```{r}
 result <- 5/3
-result # Implicitly printing the output
-print(result) # Explicitly printing the output
+result
 ```
 
 If we assign a different value to the object, the value of the object will be changed. 
