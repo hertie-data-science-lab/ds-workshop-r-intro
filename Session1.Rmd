@@ -521,6 +521,14 @@ mydata$nconflict_fatalities <- mydata$nconflict - mydata$nconflict_no_fatalities
 head(mydata, 3) #prints out the first 3 rows of the data frame
 ```
 
+## Subsetting data 
+Suppose we want to figure out which country in Northern Africa has the highest number of conflicts. We can figure this out by first subsetting our dataset to only include countries in the region, then looking up the maximum value for `nconflict`. 
+```{r}
+mydata_na <- mydata[mydata$region=="Northern Africa",]
+max(mydata_na$nconflict)
+mydata_na$country[mydata_na$nconflict == max(mydata_na$nconflict)]
+```
+
 ## Saving data 
 Suppose we wanted to save this newly created data frame. We have multiple options to do so. If we wanted to save it as a native `.RData` format, we would run the following command. 
 ```{r}
