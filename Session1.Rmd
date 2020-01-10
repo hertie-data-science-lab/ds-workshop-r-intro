@@ -498,8 +498,8 @@ table(mydata$region, mydata$nconflict > mean(mydata$nconflict))
 
 **Exercise 3**: How would you access all elements of the variable `country` using indexing rather than the `$` operator?
 ```{r, echo = F}
-mydata[, 1]
-mydata[, "country"]
+head(mydata[, 1])
+head(mydata[, "country"])
 ```
 
 **Exercise 4**: How would you find the maximum value for number of events using the `$` operator?
@@ -514,7 +514,7 @@ mydata$country[mydata$nconflict == max(mydata$nconflict)]
 
 **Exercise 6**: Print out every second element from the variable `country` using indexing methods and the sequence function `seq()`.
 ```{r, echo = F}
-mydata$country[seq(1, length(mydata$country), 2)]
+head(mydata$country[seq(1, length(mydata$country), 2)])
 ```
 
 ## NAs in `R`
@@ -581,52 +581,74 @@ Today, we will be covering some basics of data visualization in `R` using the na
 
 ### Boxplot of population density
 We can get an overview of the number of conflict events per country using the `boxplot()` function. The distribution appears to be highly skewed.
-```{r, fig.width=3, fig.height = 3}
+```{r, fig.width=3, fig.height = 4.5}
 boxplot(mydata$fatalities)
 ```
 
-Suppose we wanted to know whether there are more conflicts with fatalities on average for countries with a higher overall number of conflicts. Let's first look at the distribution of number of conflicts.
+Suppose we wanted to know whether there are more fatalities in countries with a higher overall number of conflicts. Let's first look at the distribution of number of conflicts.
 ```{r}
 summary(mydata$nconflict)
 ```
 
-Create a new dummy variable that codes whether a state has a relatively high number of conflicts (greater than the median).  
+Create a new dummy (binary) variable that codes whether a state has a relatively high number of conflicts (greater than the median) using the `ifelse()` function.  
 ```{r}
-median(mydata$fatalities)
-mydata$fatalities_high <- ifelse(mydata$fatalities > median(mydata$fatalities), 1, 0)
-head(mydata$fatalities_high)
-table(mydata$fatalities_high) # We split the observations exactly in half.
+median(mydata$nconflict)
+mydata$nconflict_high <- ifelse(mydata$nconflict > median(mydata$nconflict), 1, 0)
+head(mydata$nconflict_high)
+table(mydata$nconflict_high) # We split the observations (almost) sexactly in half.
 ```
 
 
-We can display two indicators in the same boxplot. We can use this feature to answer the question whether larger states are on average more or less dense than smaller states.
+We can display two indicators in the same boxplot. We can use this feature to answer the question whether states with more conflict events also see more overall fatalities (which is, as expected, the case).
 ```{r, fig.width = 3, fig.height= 3}
-boxplot(mydata$nconflict ~ mydata$fatalities_high)
+boxplot(mydata$fatalities ~ mydata$nconflict_high)
+```
+
+Suppose we wanted to know which region in Africa sees the most fatalities in riots or protests. Below we introduce the `%in%` operator to subset to a set of values.
+```{r}
+table(mydata$region)
+africa <- c("Eastern Africa", 
+            "Middle Africa",
+            "Northern Africa",
+            "Southern Africa",
+            "Western Africa")
+boxplot(mydata$fatalities[mydata$region %in% africa] ~ mydata$region[mydata$region %in% africa],
+        cex.axis = 0.6)
 ```
 
 
-### Histogram of number of conflicts
-```{r, fig.width=4, fig.height = 3}
+### Histogram of number of conflict events
+```{r, fig.width=3, fig.height = 3}
 hist(mydata$nconflict, breaks = 100)
 ```
 
 ### Density plot of fatalities
-```{r, fig.width = 4, fig.height = 3}
+```{r, fig.width = 3, fig.height = 3}
 plot(density(mydata$fatalities))
 ```
 
 ## Basic scatter plots
-How does population size vary with area? Are the correlated at all?
-```{r, warning = F, message = F , fig.width = 4, fig.height = 4}
-plot(mydata$fatalities, mydata$nconflict)
+Does the number of fatalities vary with the number of overall conflict events? 
+```{r, warning = F, message = F , fig.width = 5, fig.height = 4}
+plot(mydata$nconflict, mydata$fatalities)
 ```
+
+This is really hard to see. We could log-transform both variables to make the relationship clearer. The distribution of the log-transformed variables are less skewed and closer to a normal distribution. Not that logging the variable will drop 8 observations in which the number of protests/riots without fatalities is zero.
+```{r, fig.width = 5, fig.height = 4}
+length(mydata$nconflict[mydata$nconflict == 0])
+length(mydata$fatalities[mydata$fatalities == 0])
+plot(density(log(mydata$nconflict)))
+plot(density(log(mydata$fatalities)))
+plot(log(mydata$nconflict), log(mydata$fatalities))
+```
+
 
 ### Basic graphic options
 Aside from arguably not being very informative, the plot above is not very pretty. Lets give it titles, use color and shapes!
 
-```{r, warning = F, message = F , fig.width = 4, fig.height = 4}
+```{r, warning = F, message = F, fig.width = 5, fig.height = 4}
 plot(mydata$fatalities,mydata$nconflict,
-     main = "ACLED (2010-2019)", #Adding a main title.
+     main = "ACLED (2000-2019)", #Adding a main title.
      xlab = "Fatalities", #Adding a x-axis title.
      ylab = "Number of Conflicts", #Adding a y-axis title.
      col = "tomato", #Changing the color of the data points.
