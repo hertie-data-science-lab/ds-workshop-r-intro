@@ -73,7 +73,7 @@ Just like any regular calculator, you have to pay attention to the order of oper
 6 * (8 - sqrt(7)) + abs(-10)
 ```
 
-
+\newpage
 # Logical operators
 |       |Operator | 
 |:------|:-----|
@@ -596,7 +596,11 @@ Suppose we wanted to know whether there are on average more fatalities in countr
 summary(mydata$nconflict)
 ```
 
-Create a new dummy (binary) variable that codes whether a state has a relatively high number of conflicts (greater than the median) using the `ifelse()` function.  
+Create a new dummy (binary) variable that codes whether a state has a relatively high number of conflicts (greater than the median) using the `ifelse()` function.  `ifelse()` has the following general syntax:
+
+`ifelse(condition, value if TRUE, value if FALSE)`.
+
+
 ```{r}
 median(mydata$nconflict)
 mydata$nconflict_high <- ifelse(mydata$nconflict > median(mydata$nconflict), 1, 0)
