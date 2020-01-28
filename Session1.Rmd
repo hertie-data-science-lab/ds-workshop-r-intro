@@ -234,8 +234,8 @@ There are a number of special functions that operate on vectors and allow us to 
 | `length()` | Returns the length of the values or object. |
 | `mean()` | Returns the average of the values or object. |
 | `median()` | Returns the median of the values or object. |
-| `var()` | Returns the varianve of the values or object. |
-| `sd()` | Returns the varianve of the values or object. |
+| `var()` | Returns the variance of the values or object. |
+| `sd()` | Returns the variance of the values or object. |
 
 
 ```{r}
